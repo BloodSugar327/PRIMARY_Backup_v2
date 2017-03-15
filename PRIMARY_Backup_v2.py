@@ -21,8 +21,11 @@ class Application(tk.Frame):
 		self.selectDesButton.pack(side="left")
 		
 		# Button to start file copy
-		self.Start = tk.Button(self, text="Start", fg="green", command=self.copyStart)
+		global startButtonText
+		startButtonText = tk.StringVar()
+		self.Start = tk.Button(self, textvariable=startButtonText, fg="green", command=self.copyStart)
 		self.Start.pack(side="left")
+		startButtonText.set("Start")
 		
 		# Button to quit program
 		self.Quit = tk.Button(self, text="Quit", fg="red", command=root.destroy)
@@ -45,25 +48,59 @@ class Application(tk.Frame):
 		
 		# Populate array with all the paths in selected source directory
 		src_files = os.listdir(src)
+				
+		
+		# Initialize variables for progress tracking
+		i = 0
+		e = len(src_files)
 		
 		# Start for loop with every path in array
 		for file_name in src_files:
 			
 			# The full path is the concatination of the file name and the source path
-			full_file_name = os.path.join(src, file_name)
+			file_name_src = os.path.join(src, file_name)
 			
-			# If the path is a file
-			if (os.path.isfile(full_file_name)):
+			# Print the full path of source
+			print(file_name_src)
+			
+			# The full path is the concatination of the file name and the source path
+			file_name_des = os.path.join(des, file_name)
+			
+			# Print the full path of destination
+			print(file_name_des)
+			
+			
+			if os.path.exists(file_name_des) != True:
+			
+				# If the path is a file
+				if (os.path.isfile(file_name_src)):
+					
+					# Copy the file by itself
+					shutil.copy2(file_name_src, des)
+					
+				# If the path is a directory
+				elif (os.path.isdir(file_name_src)):
+					
+					# Copy the full tree
+					shutil.copytree(file_name_src, file_name_des)
+					
+					
+				# Add 1 to progress	
+				i += 1	
 				
-				# Copy the file by itself
-				shutil.copy2(full_file_name, des)
+				# Calculate and Report progress to user	
+				percentComplete = str("{:10.2f}".format(i / e * 100) + "%" + " Complete - File Copied")
+				print(percentComplete)
+			
+			else:
 				
-			# If the path is a directory
-			elif (os.path.isdir(full_file_name)):
+				# Add 1 to progress	
+				i += 1	
 				
-				# Copy the full tree
-				shutil.copytree(src, des)
+				percentComplete = str("{:10.2f}".format(i / e * 100) + "%" + " Complete - File Already Exists")
+				print(percentComplete)
 				
 root = tk.Tk()
 app = Application(master=root)
+app.master.title("PRIMARY Backup Automation")
 app.mainloop()
