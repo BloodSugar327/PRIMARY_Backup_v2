@@ -12,10 +12,10 @@ Program to automate backup sorting and moving of files.
 
 To start up the GUI script:
 
-'''
+```
 
 $ python3 /Users/DavidG/PRIMARY_Backup_v2/PRIMARY_Backup_v2.py
 
-'''
+```
 
  
