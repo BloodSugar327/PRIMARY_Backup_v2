@@ -67,6 +67,8 @@ class Application(tk.Frame):
 	# Starts the file copy process	
 	def copyStart(self):
 		
+		print ("Begin Copy Process")
+		
 		#create folder arrays
 		self.initializeFolders()
 		
@@ -143,6 +145,8 @@ class Application(tk.Frame):
 				
 				percentComplete = str("{:10.2f}".format(i / e * 100) + "%" + " Complete - File Already Exists \n")
 				print(percentComplete)
+				
+		print ("Copy Process Complete")
 				
 root = tk.Tk()
 app = Application(master=root)
