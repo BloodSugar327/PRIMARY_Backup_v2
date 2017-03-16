@@ -355,7 +355,9 @@ def copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2,
 
     os.makedirs(dst)
     
-    if isTagInstalled == True:
+    useTag = isTagInstalled
+    
+    if useTag == True:
         
         file_Name = str(os.path.basename(src))
         
@@ -403,14 +405,14 @@ def copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2,
                     # otherwise let the copy occurs. copy2 will raise an error
                     if os.path.isdir(srcname):
                         copytree(srcname, dstname, symlinks, ignore,
-                                 copy_function)
+                                 copy_function,isTagInstalled=useTag)
                     else:
-                        copy_function(srcname, dstname, tagInstalled=isTagInstalled)
+                        copy_function(srcname, dstname, tagInstalled=useTag)
             elif os.path.isdir(srcname):
-                copytree(srcname, dstname, symlinks, ignore, copy_function)
+                copytree(srcname, dstname, symlinks, ignore, copy_function, isTagInstalled=useTag)
             else:
                 # Will raise a SpecialFileError for unsupported file types
-                copy_function(srcname, dstname, tagInstalled = isTagInstalled)
+                copy_function(srcname, dstname, tagInstalled = useTag)
         # catch the Error from the recursive copytree so that we can
         # continue with other files
         except Error as err:

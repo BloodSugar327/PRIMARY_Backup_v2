@@ -54,10 +54,10 @@ class Application(tk.Frame):
 		# Check the system version to know if color tags could be copied using TAG
 		systemVersion = platform.system()
 		
+		global checkTag
+		
 		# Mac
 		if systemVersion == "Darwin":
-			
-			global checkTag
 			
 			# Get status of tag installation
 			checkTag = self.isTagInstalled()
@@ -84,6 +84,8 @@ class Application(tk.Frame):
 				
 		# Other Systems
 		else:
+			
+			checkTag = False
 			
 			# Warn user about not being able to copy that data
 			print("WARNING: Copying Mac files from this system will not transfer over COLOR TAGS")
