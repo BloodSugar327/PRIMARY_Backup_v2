@@ -1,7 +1,8 @@
 import tkinter as tk
 import tkinter.filedialog as fileDialog
 import tkinter.messagebox as messageBox
-import shlex, subprocess, shutil, os, platform, shutil2, posixpath, macpath
+import shlex, subprocess, shutil, os, platform, shutil2, posixpath, macpath, shlex
+from subprocess import Popen, PIPE, STDOUT
 
 class Application(tk.Frame):
 	def __init__(self, master=None):
@@ -31,6 +32,10 @@ class Application(tk.Frame):
 		self.Quit = tk.Button(self, text="Quit", fg="red", command=root.destroy)
 		self.Quit.pack(side="left")
 		
+		# Button to quit program
+		self.installTagButton = tk.Button(self, text="Install Tag", fg="red", command=self.installTag)
+		self.installTagButton.pack(side="left")
+		
 	def isTagInstalled(self):
 		try:
 			subprocess.run("tag -v", shell=True, check=True)
@@ -38,11 +43,48 @@ class Application(tk.Frame):
 		except Exception:
 			return False
 		
-	def installTag(self, tagFolder):
+	def installTag(self):
+		
 		try:
-			print("cd " + tagFolder)
-			subprocess.run("cd " + tagFolder, "pwd", "make && sudo make install", shell=True, check=True)
-			print("TAG SUCCESFULLY INSTALLED")
+			# Get file directory of script
+			fileDir = os.path.dirname(os.path.realpath(__file__))
+			
+			# Get parent folder of script
+			rootDir = os.path.split(fileDir)
+			
+			# Join root path with TAG folder
+			tagDir = os.path.join(rootDir[0],"TAG")
+			
+			tagFile = os.path.join(tagDir,"installTag.sh")
+			xcodeFile = os.path.join(fileDir,"installCommandLineTools.sh")
+			
+			directorytoCD = "cd " + str(tagDir)
+			print(directorytoCD)
+			print(tagFile)
+			
+			xcodeInstall = subprocess.run(xcodeFile,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			
+			
+			
+			if xcodeInstall.returncode == 0:
+				subprocess.call(tagFile)
+			elif xcodeInstall.returncode == 1:
+				subprocess.call(tagFile)
+
+			# Get status of tag installation
+			checkTag = self.isTagInstalled()
+			
+			# If tag is not installed, install it from downloaded package in root folder.
+			if checkTag != True:
+				
+				# Call function to install tag from tagDir folder
+				self.installTag()
+				
+			else:
+				
+				print("TAG IS NOW INSTALLED")
+				print("COLOR TAG COPYING SUPPORTED")
+				
 			return True
 		except Exception:
 			print("WARNING: COULD NOT INSTALL TAG \n \t COLOR TAGS WILL NOT COPY OVER")
@@ -65,17 +107,8 @@ class Application(tk.Frame):
 			# If tag is not installed, install it from downloaded package in root folder.
 			if checkTag != True:
 				
-				# Get file directory of script
-				fileDir = os.path.dirname(os.path.realpath(__file__))
-				
-				# Get parent folder of script
-				rootDir = os.path.split(fileDir)
-				
-				# Join root path with TAG folder
-				tagDir = os.path.join(rootDir[0],"TAG")
-				
 				# Call function to install tag from tagDir folder
-				self.installTag(tagDir)
+				self.installTag()
 				
 			else:
 				
