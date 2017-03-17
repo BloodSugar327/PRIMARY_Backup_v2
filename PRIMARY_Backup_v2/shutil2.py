@@ -287,15 +287,12 @@ def copy2(src, dst, *, follow_symlinks=True, tagInstalled=False):
                     
             if tagColor != '':
                 
-                print ("COLOR TAG")
+                #print ("COLOR TAG")
                 addTag = subprocess.run("tag -a " + tagColor.replace("\n","") + " " + dstTagPath, shell=True, check=True, encoding="utf-8", stdout=subprocess.PIPE)
                 
-                #print(dst)
-                #print (dstTagPath)
-                #print(addTag.stdout)
-            else:
+            #else:
                 
-                print ("NO COLOR TAG")
+                #print ("NO COLOR TAG")
 
     return dst
 
@@ -372,15 +369,12 @@ def copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2,
                     
             if tagColor != '':
                 
-                print ("COLOR TAG")
+                #print ("COLOR TAG")
                 addTag = subprocess.run("tag -a " + tagColor.replace("\n","") + " " + dstTagPath, shell=True, check=True, encoding="utf-8", stdout=subprocess.PIPE)
                 
-                #print(dst)
-                #print (dstTagPath)
-                #print(addTag.stdout)
-            else:
+            #else:
                 
-                print ("NO COLOR TAG")
+                #print ("NO COLOR TAG")
     
     
     errors = []

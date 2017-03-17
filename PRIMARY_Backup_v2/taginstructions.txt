@@ -1,0 +1,34 @@
+###############################################
+
+		How To Install Tag
+
+###############################################
+
+
+* NOTE: XCODE COMMAND LINE TOOLS MUST BE INSTALLED FIRST
+If command line tools is already installed, skip to step 2 below.
+
+
+There are two options to install:
+
+- Shell Script
+- Manual Terminal Commands
+
+* Shell Script Instructions
+
+1. Run/Drag <xcodepath> in Terminal, follow on screen prompts to install.
+2. Run/Drag <tagpath> in Terminal, this will ask for sudo permissions.
+
+* Manual Terminal Commands
+
+1. Install Command Line Tools with the following command
+	
+	$ xcode-select --install
+
+2. Run the following command to go to TAG directory.
+
+	$ cd <tagdirectory>
+
+3. Build and Install TAG, this will ask for sudo permissions
+
+	$ make && sudo make install

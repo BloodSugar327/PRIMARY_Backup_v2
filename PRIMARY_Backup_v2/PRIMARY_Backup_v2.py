@@ -10,6 +10,7 @@ class Application(tk.Frame):
 		self.pack()
 		self.createWidgets()
 		self.checkSystem()
+		print("\n* Select Folders to copy in GUI *")
 	
 	# Create 4 form buttons
 	def createWidgets(self):
@@ -43,6 +44,8 @@ class Application(tk.Frame):
 		except Exception:
 			return False
 		
+	
+		
 	def installTag(self):
 		
 		try:
@@ -55,41 +58,96 @@ class Application(tk.Frame):
 			# Join root path with TAG folder
 			tagDir = os.path.join(rootDir[0],"TAG")
 			
+			
+			# Get the directories of files that are needed to install XCODE and TAG as dependencies
 			tagFile = os.path.join(tagDir,"installTag.sh")
-			xcodeFile = os.path.join(fileDir,"installCommandLineTools.sh")
+			xcodeFile = os.path.join(tagDir,"installCommandLineTools.sh")
+			taginstructionsFile = os.path.join(fileDir,"taginstructions.txt")
+		
+			# Text file containing instructions to install dependencies
+			textFile = open(taginstructionsFile, 'r')
 			
-			directorytoCD = "cd " + str(tagDir)
-			print(directorytoCD)
-			print(tagFile)
-			
-#TODO: Instead if of trying to install for user, provide commands and steps necessary to install xtools and TAG
+			# Read all the lines into an array
+			textLines = textFile.readlines()
 
-			xcodeInstall = subprocess.run(xcodeFile,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			# Set variables and variable names from text files to be replaced
+			pathVariables = ["\n","<xcodepath>","<tagpath>","<tagdirectory>"]
+			pathUser = ["",xcodeFile,tagFile,tagDir]
 			
+			# Start at 0 lines
+			i = 0
 			
+			# While we havent reached the end of the lines in file
+			while i < len(textLines):
+				
+				# Get single line and place in temporary variable
+				tempString1 = textLines[i]
+					
+				# Loop through the path variables that need to be replaced in text file
+				for x in range(0,4):
+					
+					# Replace variable from tempString1 and place in secondary tempString2
+					tempString2 = tempString1.replace(pathVariables[x],pathUser[x])
+					
+					# Give value from tempString2 to tempString1 to retain changes on loop
+					tempString1 = tempString2
+					
+				# Print the fixed line
+				print(tempString1)
+				
+				# Move to next line
+				i += 1
 			
-			if xcodeInstall.returncode == 0:
-				subprocess.call(tagFile)
-			elif xcodeInstall.returncode == 1:
-				subprocess.call(tagFile)
+			# Variable that will wait for user to input a valid answer
+			properInput = False
+			
+			# While the input isnt valid
+			while properInput != True:
+				
+				# Ask user for input
+				didUserInstallTag = input("Did you install TAG in system? (Y/N)").upper()
+				
+				# If the input is either Y/N, set properInput to True
+				if didUserInstallTag =="Y":
+					properInput = True
+				elif didUserInstallTag =="N":
+					properInput = True
+			
+			# If the user did install TAG succesfully
+			if didUserInstallTag == "Y":
 
-			# Get status of tag installation
-			checkTag = self.isTagInstalled()
+				# Get status of tag installation
+				checkTag = self.isTagInstalled()
+				
+				# If tag is not installed, install it from downloaded package in root folder.
+				if checkTag != True:
+					
+					# Warn user about tag status
+					print("WARNING: COULD NOT FIND TAG\n\tCOLOR TAGS WILL NOT COPY OVER\n")
+					print("\n* Select Folders to copy in GUI *")
+					
+				else:
+					
+					# Report succesful use of TAG
+					print("TAG IS INSTALLED\nCOLOR TAG COPYING SUPPORTED\n")
+					print("\n* Select Folders to copy in GUI *")
+					print()
+					
+				return True
 			
-			# If tag is not installed, install it from downloaded package in root folder.
-			if checkTag != True:
+			# If the user chose not to install TAG	
+			elif didUserInstallTag == "N":
 				
-				# Call function to install tag from tagDir folder
-				self.installTag()
+				# Warn user about tag status
+				print("WARNING: COPYING FILES WITHOUT TAG WILL LOSE THEIR COLOR LABEL\n")
+				print("\n* Select Folders to copy in GUI *")	
 				
-			else:
 				
-				print("TAG IS NOW INSTALLED")
-				print("COLOR TAG COPYING SUPPORTED")
-				
-			return True
 		except Exception:
-			print("WARNING: COULD NOT INSTALL TAG \n \t COLOR TAGS WILL NOT COPY OVER")
+			
+			# Warn user about tag status
+			print("WARNING: COULD NOT INSTALL TAG\n\tCOLOR TAGS WILL NOT COPY OVER\n")
+			print("\n* Select Folders to copy in GUI *")
 			return False
 		
 
@@ -114,8 +172,7 @@ class Application(tk.Frame):
 				
 			else:
 				
-				print("TAG IS INSTALLED")
-				print("COLOR TAG COPYING SUPPORTED")
+				print("TAG IS INSTALLED\nCOLOR TAG COPYING SUPPORTED\n")
 				
 		# Other Systems
 		else:
@@ -193,7 +250,7 @@ class Application(tk.Frame):
 			file_name_src = os.path.join(src, file_name)
 			
 			# Print the full path of source
-			print(file_name_src)
+			print("Copy from: " + file_name_src)
 
 			if myFolder != "":
 				file_name_client = os.path.join(des, myFolder)
@@ -206,7 +263,7 @@ class Application(tk.Frame):
 				
 
 			# Print the full path of destination
-			print(file_name_des)
+			print("Copy to: " + file_name_des)
 			
 			if os.path.exists(file_name_des) != True:
 			
