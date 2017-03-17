@@ -62,6 +62,8 @@ class Application(tk.Frame):
 			print(directorytoCD)
 			print(tagFile)
 			
+#TODO: Instead if of trying to install for user, provide commands and steps necessary to install xtools and TAG
+
 			xcodeInstall = subprocess.run(xcodeFile,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			
 			
