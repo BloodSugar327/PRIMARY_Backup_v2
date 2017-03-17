@@ -2,7 +2,7 @@
 
 Program to automate backup sorting and moving of files.
 
-## Program Features:
+## Program Features
 - [x] Pre-Sort files and folders
 - [x] Copy the files over to new folder if they DO NOT exist
 - [x] Copy Metadata between two drives 
@@ -34,7 +34,7 @@ Install via included package or Download from https://github.com/jdberry/tag or
 
 ## Usage
 
-Mac/Linux
+### Mac/Linux
 
 Run __PRIMARY_Backup_v2.py__ script and use GUI interface to select FROM and TO folder.
 
@@ -50,7 +50,7 @@ $ python3 /Users/YouUserName/PRIMARY_Backup_v2/PRIMARY_Backup_v2.py
 
 ```
 
-Windows 
+### Windows 
 
 TODO: Finish writing instructions for Windows users.
 
