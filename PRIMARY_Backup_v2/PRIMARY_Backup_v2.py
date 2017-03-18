@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.filedialog as fileDialog
 import tkinter.messagebox as messageBox
-import shlex, subprocess, shutil, os, platform, shutil2, posixpath, macpath, shlex
+import shlex, subprocess, shutil, os, platform, shutil2, posixpath, macpath, shlex, time
 from subprocess import Popen, PIPE, STDOUT
 
 class Application(tk.Frame):
@@ -181,19 +181,25 @@ class Application(tk.Frame):
 			
 			# Warn user about not being able to copy that data
 			print("WARNING: Copying Mac files from this system will not transfer over COLOR TAGS")
+			
+		# Initialize 2 global variables that will hold the source and destination paths
+		global src
+		global des
+		
+		src = ""
+		des = ""
 		
 	# Initilizes global variable and stores user selected file path as the source
 	def selectSource_folder(self):
 		global src
 		src = fileDialog.askdirectory()
-		print(src)
+		print("FROM folder selected:\n" + src)
 		
 	# Initilizes global variable and stores user selected file path as the destination	
 	def selectDestination_folder(self):
 		global des
 		des = fileDialog.askdirectory()
-		print(des)
-		
+		print("TO folder selected:\n" + des)
 		
 	def initializeFolders(self):
 		
@@ -215,8 +221,37 @@ class Application(tk.Frame):
 		#print(folderName)
 		
 		
+	def twoFoldersChosen(self):
+		
+		print (src)
+		if src != "":
+			if des !="":
+				return True
+			else:
+				print("You must choose TO folder.")
+				return False
+		else:
+			print("You must choose FROM folder.")
+			return False
+		
+		
+	def progressReport(self,count,maxvalue):
+		
+		for x in range (0,5):  
+			b = "Copying" + "." * x
+			print (b, end="\r")
+			time.sleep(1)
+		
+	
+		
 	# Starts the file copy process	
 	def copyStart(self):
+		
+		
+		if self.twoFoldersChosen() != True:
+			return
+		
+		
 		
 		print ("Begin Copy Process")
 		
@@ -271,15 +306,20 @@ class Application(tk.Frame):
 				if (os.path.isfile(file_name_src)):
 					
 					if os.path.exists(file_name_client) != True:
+						
 						os.makedirs(file_name_client)
 					
 					# Copy the file by itself
+					print("\tCopying...\n")
 					shutil2.copy2(file_name_src, file_name_des)
+					
+
 					
 				# If the path is a directory
 				elif (os.path.isdir(file_name_src)):
 					
 					# Copy the full tree
+					print("\tCopying...\n")
 					shutil2.copytree(file_name_src, file_name_des, isTagInstalled=checkTag)
 					
 				# Add 1 to progress	

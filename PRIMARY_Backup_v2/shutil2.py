@@ -10,7 +10,7 @@ import stat
 import fnmatch
 import collections
 import errno
-import shlex, subprocess, posixpath, macpath
+import shlex, subprocess, posixpath, macpath, time
 
 try:
     import zlib
@@ -76,11 +76,12 @@ class RegistryError(Exception):
 
 def copyfileobj(fsrc, fdst, length=16*1024):
     """copy data from file-like object fsrc to file-like object fdst"""
+    
     while 1:
         buf = fsrc.read(length)
         if not buf:
             break
-        fdst.write(buf)
+        fdst.write(buf) 
 
 def _samefile(src, dst):
     # Macintosh, Unix.
