@@ -14,8 +14,8 @@ Program to automate backup sorting and moving of files.
 ## Dependencies
 
 - PYTHON3: Runs the script, not included in all OS
-- XCODE Command Line Tools: (To Install TAG) _optional_
-- TAG: Used when running on OSX to copy color tags _optional_
+- XCODE Command Line Tools: (To Install TAG) _**optional**_
+- TAG: Used when running on OSX to copy color tags _**optional**_
 
 ## Installation
 
@@ -23,7 +23,7 @@ _XCODE Command Line Utilities and TAG needed for color tag copying_
 
 _Program still is usable, but will not copy tags on OSX_
 
-Install Command Line tools from Terminal on Mac:
+- Install Command Line tools from Terminal on Mac:
 
 ```
 
@@ -31,7 +31,7 @@ $ xcode-select --install
 
 ```
 
-Install TAG:
+- Install TAG:
 Install via included package or Download from [https://github.com/jdberry/tag](https://github.com/jdberry/tag)
 
 ## Usage
