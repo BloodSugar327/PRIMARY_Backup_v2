@@ -19,8 +19,9 @@ Program to automate backup sorting and moving of files.
 
 ## Installation
 
-XCODE Command Line Utilities and TAG needed for color tag copying
-Program still is usable, but will not copy tags on OSX
+_XCODE Command Line Utilities and TAG needed for color tag copying_
+
+_Program still is usable, but will not copy tags on OSX_
 
 Install Command Line tools from Terminal on Mac:
 
@@ -31,7 +32,7 @@ $ xcode-select --install
 ```
 
 Install TAG:
-Install via included package or Download from https://github.com/jdberry/tag or 
+Install via included package or Download from [https://github.com/jdberry/tag](https://github.com/jdberry/tag)
 
 ## Usage
 
